@@ -9,6 +9,7 @@ public:
     HealthIndicator(int h);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
+    int getHealth();
 
 private:
     int health;

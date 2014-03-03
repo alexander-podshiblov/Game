@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'scene.h'
 **
-** Created: Mon 23. Dec 11:44:02 2013
+** Created: Mon 3. Mar 02:24:37 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -35,19 +35,19 @@ static const uint qt_meta_data_Scene[] = {
 
  // slots: signature, parameters, type, tag, flags
       29,   22,    6,    6, 0x0a,
-      44,   41,    6,    6, 0x0a,
-      76,   61,    6,    6, 0x0a,
-      95,   22,    6,    6, 0x0a,
-     108,    6,    6,    6, 0x0a,
+      55,   41,    6,    6, 0x0a,
+     102,   80,    6,    6, 0x0a,
+     125,   22,    6,    6, 0x0a,
+     138,    6,    6,    6, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Scene[] = {
     "Scene\0\0returnToMenu()\0player\0doFire(int)\0"
-    "eX\0doExplosion(int)\0hx,hy,numOfGun\0"
-    "doHit(int,int,int)\0doCrash(int)\0"
-    "doAutoShoot()\0"
+    "eX,rad,damage\0doExplosion(int,int,int)\0"
+    "hx,hy,numOfGun,damage\0doHit(int,int,int,int)\0"
+    "doCrash(int)\0doAutoShoot()\0"
 };
 
 void Scene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -58,8 +58,8 @@ void Scene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         switch (_id) {
         case 0: _t->returnToMenu(); break;
         case 1: _t->doFire((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 2: _t->doExplosion((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 3: _t->doHit((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 2: _t->doExplosion((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 3: _t->doHit((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
         case 4: _t->doCrash((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 5: _t->doAutoShoot(); break;
         default: ;

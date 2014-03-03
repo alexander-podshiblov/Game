@@ -21,7 +21,11 @@ SOURCES += main.cpp \
     clouds.cpp \
     healthindicator.cpp \
     shootcontrol.cpp \
-    powercontroller.cpp
+    powercontroller.cpp \
+    bulletindicator.cpp \
+    ball.cpp \
+    rocket.cpp \
+    bomb.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -34,7 +38,11 @@ HEADERS += \
     clouds.h \
     healthindicator.h \
     shootcontrol.h \
-    powercontroller.h
+    powercontroller.h \
+    bulletindicator.h \
+    ball.h \
+    rocket.h \
+    bomb.h
 
 FORMS += \
     mainwindow.ui

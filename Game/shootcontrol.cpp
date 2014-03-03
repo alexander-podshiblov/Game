@@ -4,6 +4,8 @@ ShootControl::ShootControl()
 {
     firePlayer = 1;
     isReady = true;
+
+
 }
 
 int ShootControl::whoShoot()

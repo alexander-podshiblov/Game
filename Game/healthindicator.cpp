@@ -5,6 +5,11 @@ HealthIndicator::HealthIndicator(int h)
     health = h;
 }
 
+int HealthIndicator::getHealth()
+{
+    return health;
+}
+
 void HealthIndicator::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QLinearGradient gradient(0, -4, 0, 5);

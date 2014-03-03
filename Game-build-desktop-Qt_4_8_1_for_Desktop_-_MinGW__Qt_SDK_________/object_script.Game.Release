@@ -11,6 +11,10 @@ INPUT(
 ./release\healthindicator.o
 ./release\shootcontrol.o
 ./release\powercontroller.o
+./release\bulletindicator.o
+./release\ball.o
+./release\rocket.o
+./release\bomb.o
 ./release\moc_mainwindow.o
 ./release\moc_scene.o
 ./release\moc_coordinator.o
@@ -21,5 +25,8 @@ INPUT(
 ./release\moc_healthindicator.o
 ./release\moc_shootcontrol.o
 ./release\moc_powercontroller.o
+./release\moc_ball.o
+./release\moc_rocket.o
+./release\moc_bomb.o
 ./release\qrc_res.o
 );

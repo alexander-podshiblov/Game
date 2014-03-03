@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'bullet.h'
 **
-** Created: Mon 23. Dec 11:44:09 2013
+** Created: Thu 6. Feb 23:43:08 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -31,15 +31,15 @@ static const uint qt_meta_data_Bullet[] = {
        2,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
-      11,    8,    7,    7, 0x05,
-      41,   26,    7,    7, 0x05,
+      22,    8,    7,    7, 0x05,
+      67,   45,    7,    7, 0x05,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Bullet[] = {
-    "Bullet\0\0eX\0explosion(int)\0hx,hy,numOfGun\0"
-    "hit(int,int,int)\0"
+    "Bullet\0\0eX,rad,damage\0explosion(int,int,int)\0"
+    "hx,hy,numOfGun,damage\0hit(int,int,int,int)\0"
 };
 
 void Bullet::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -48,8 +48,8 @@ void Bullet::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         Q_ASSERT(staticMetaObject.cast(_o));
         Bullet *_t = static_cast<Bullet *>(_o);
         switch (_id) {
-        case 0: _t->explosion((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 1: _t->hit((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 0: _t->explosion((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 1: _t->hit((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
         default: ;
         }
     }
@@ -97,16 +97,16 @@ int Bullet::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void Bullet::explosion(int _t1)
+void Bullet::explosion(int _t1, int _t2, int _t3)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void Bullet::hit(int _t1, int _t2, int _t3)
+void Bullet::hit(int _t1, int _t2, int _t3, int _t4)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)), const_cast<void*>(reinterpret_cast<const void*>(&_t4)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_END_MOC_NAMESPACE

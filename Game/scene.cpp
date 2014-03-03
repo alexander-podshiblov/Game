@@ -2,12 +2,30 @@
 #include "stdio.h"
 
 
+
+
 Scene::Scene(int mod)
 {
     FILE *f = fopen("tab.txt", "r");
     for (int i = 0; i < 31; i++)
     {
         fscanf(f, "%lf%lf%lf", &tab[i][0], &tab[i][1], &tab[i][2]);
+
+    }
+    fclose(f);
+
+    f = fopen("tab_rocket.txt", "r");
+    for (int i = 0; i < 31; i++)
+    {
+        fscanf(f, "%lf%lf%lf", &tab_rocket[i][0], &tab_rocket[i][1], &tab_rocket[i][2]);
+
+    }
+    fclose(f);
+
+    f = fopen("tab_bomb.txt", "r");
+    for (int i = 0; i < 31; i++)
+    {
+        fscanf(f, "%lf%lf%lf", &tab_bomb[i][0], &tab_bomb[i][1], &tab_bomb[i][2]);
 
     }
     fclose(f);
@@ -93,6 +111,31 @@ Scene::Scene(int mod)
 
 
 ////////
+    QGraphicsPixmapItem *player1 = new QGraphicsPixmapItem(QPixmap(":/player1.gif"));
+    player1->setPos(indent - 80, 150);
+    addItem(player1);
+
+    if (gameMod == 1)
+    {
+        QGraphicsPixmapItem *player2 = new QGraphicsPixmapItem(QPixmap(":/player2.gif"));
+        player2->setPos(wOfField - indent - 80, 150);
+        addItem(player2);
+    }
+    else if (gameMod == 2)
+    {
+        QGraphicsPixmapItem *computer = new QGraphicsPixmapItem(QPixmap(":/computer.gif"));
+        computer->setPos(wOfField - indent - 120, 150);
+        addItem(computer);
+    }
+
+
+
+
+
+
+
+
+////////
     health1 = new HealthIndicator(100);
     health1->setPos(indent, horizon - 120);
     addItem(health1);
@@ -102,6 +145,17 @@ Scene::Scene(int mod)
     health2->setPos(wOfField - indent, horizon - 120);
     addItem(health2);
     connect(gun2, SIGNAL(healthChanged(int)), health2, SLOT(setHealth(int)));
+///////
+    bInd1 = new BulletIndicator();
+    bInd1->setPos(indent, 320);
+    addItem(bInd1);
+
+    bInd2 = new BulletIndicator();
+    bInd2->setPos(wOfField - indent, 320);
+    if (gameMod == 2)
+        bInd2->setControllability(false);
+    addItem(bInd2);
+
 
 ///////
     pContr1 = new PowerController(1);
@@ -147,7 +201,41 @@ Scene::Scene(int mod)
     viewHit->setGeometry(-35, -52, 71, 100);
     viewHit->setAttribute(Qt::WA_NoBackground);
     hit = addWidget(viewHit);
+///////
+    m = new QMovie("aind1.gif");
+    viewPInd1 = new QLabel();
+    viewPInd1->setMovie(m);
+    viewPInd1->setGeometry(-250, 0, 500, 150);
+    viewPInd1->setAttribute(Qt::WA_NoBackground);
+    pInd1 = addWidget(viewPInd1);
 
+    pInd1->setPos(wOfField / 2 - 250, 50);
+
+    viewPInd1->movie()->stop();
+    viewPInd1->movie()->start();
+
+    if (gameMod == 1)
+    {
+        m = new QMovie("aind2.gif");
+        viewPInd2 = new QLabel();
+        viewPInd2->setMovie(m);
+        viewPInd2->setGeometry(-250, 0, 500, 150);
+        viewPInd2->setAttribute(Qt::WA_NoBackground);
+        pInd2 = addWidget(viewPInd2);
+
+        pInd2->setPos(wOfField / 2 - 250, 50);
+    }
+    else
+    {
+        m = new QMovie("aindc.gif");
+        viewPIndc = new QLabel();
+        viewPIndc->setMovie(m);
+        viewPIndc->setGeometry(-250, 0, 500, 150);
+        viewPIndc->setAttribute(Qt::WA_NoBackground);
+        pIndc = addWidget(viewPIndc);
+
+        pIndc->setPos(wOfField / 2 - 250, 50);
+    }
 //////
     timer = new QTimer();
     timer->setInterval(30);
@@ -155,6 +243,48 @@ Scene::Scene(int mod)
     connect(timer, SIGNAL(timeout()), this, SLOT(advance()));
 //////
 
+
+}
+
+void Scene::showWinner(int p)
+{
+    QMovie *m;
+    QMovie *s = new QMovie("salute.gif");
+    QLabel *viewSalute = new QLabel();
+    viewSalute->setMovie(s);
+    viewSalute->setGeometry(-70, 0, 139, 146);
+    viewSalute->setAttribute(Qt::WA_NoBackground);
+    QGraphicsProxyWidget *salute = addWidget(viewSalute);
+
+    int coord = wOfField - indent;
+    if (p == 1)
+    {
+        m = new QMovie("win1.gif");
+        coord = indent;
+    }
+    else if (p == 2)
+    {
+        m = new QMovie("win2.gif");
+    }
+    else
+    {
+        m = new QMovie("winc.gif");
+    }
+
+    salute->setPos(coord - 70, horizon - 150);
+
+    QLabel *viewWinner = new QLabel();
+    viewWinner->setMovie(m);
+    viewWinner->setGeometry(-250, 0, 500, 150);
+    viewWinner->setAttribute(Qt::WA_NoBackground);
+    QGraphicsProxyWidget *winner = addWidget(viewWinner);
+
+    winner->setPos(wOfField / 2 - 250, 50);
+
+    viewWinner->show();
+    viewWinner->movie()->start();
+    viewSalute->show();
+    viewSalute->movie()->start();
 }
 
 
@@ -176,13 +306,30 @@ void Scene::doFire(int player)
         }
 
 
-        Bullet * bull = new Bullet(g->getPosForEx().x(), g->getPosForEx().y(), g->getSpeed(factor).x(), g->getSpeed(factor).y(), width, gun1, gun2);
+        Bullet *bull;
+        BulletIndicator *tempBI;
+        if (control->whoShoot() == 1)
+            tempBI = bInd1;
+        else if (control->whoShoot() == 2)
+            tempBI = bInd2;
+
+
+
+        if (tempBI->getKindOfBullet() == 1)
+            bull = new Ball(g->getPosForEx().x(), g->getPosForEx().y(), g->getSpeed(factor).x(), g->getSpeed(factor).y(), width, gun1, gun2);
+        else if (tempBI->getKindOfBullet() == 2)
+            bull = new Rocket(g->getPosForEx().x(), g->getPosForEx().y(), g->getSpeed(factor).x(), g->getSpeed(factor).y(), width, gun1, gun2);
+        else
+            bull = new Bomb(g->getPosForEx().x(), g->getPosForEx().y(), g->getSpeed(factor).x(), g->getSpeed(factor).y(), width, gun1, gun2);
+
         addItem(bull);
-        connect(bull, SIGNAL(explosion(int)), this, SLOT(doExplosion(int)));
-        connect(bull, SIGNAL(hit(int,int,int)), this, SLOT(doHit(int,int,int)));
+        connect(bull, SIGNAL(explosion(int, int, int)), this, SLOT(doExplosion(int, int, int)));
+        connect(bull, SIGNAL(hit(int,int,int, int)), this, SLOT(doHit(int,int,int, int)));
 
 
     ///////////////
+
+
         viewBoom->movie()->stop();
         QPoint p;
         p = g->getPosForEx();
@@ -195,7 +342,60 @@ void Scene::doFire(int player)
 
 }
 
-void Scene::doExplosion(int eX)
+void Scene::changeInd(int p)
+{
+    if (p == 1)
+    {
+        if (gameMod == 2)
+        {
+            viewPIndc->movie()->stop();
+            viewPIndc->hide();
+        }
+        else
+        {
+            viewPInd2->movie()->stop();
+            viewPInd2->hide();
+        }
+
+        viewPInd1->show();
+        viewPInd1->movie()->start();
+    }
+    else if (p == 2)
+    {
+        viewPInd1->movie()->stop();
+        viewPInd1->hide();
+
+        if (gameMod == 2)
+        {
+            viewPIndc->show();
+            viewPIndc->movie()->start();
+        }
+        else
+        {
+            viewPInd2->show();
+            viewPInd2->movie()->start();
+        }
+    }
+    else
+    {
+        if (gameMod == 2)
+        {
+            viewPIndc->movie()->stop();
+            viewPIndc->hide();
+        }
+        else
+        {
+            viewPInd2->movie()->stop();
+            viewPInd2->hide();
+        }
+        viewPInd1->movie()->stop();
+        viewPInd1->hide();
+
+    }
+
+}
+
+void Scene::doExplosion(int eX, int rad, int damage)
 {
     if (eX > graundStart && eX < graundFinish)
     {
@@ -215,9 +415,9 @@ void Scene::doExplosion(int eX)
             p = 2;
             r = fabs(gun2->x() - eX);
         }
-        if (r < 75)
+        if (r < rad)
         {
-            double d = 1.0 / 3.0 * (75.0 - r);
+            double d = damage * (rad - r) / rad;
             Gun *g;
             if (p == 1)
                 g = gun1;
@@ -238,8 +438,12 @@ void Scene::doExplosion(int eX)
     control->setReady();
     setWidth((qrand() % 30 - 15.0) / 10.0);
 
+    changeInd(control->whoShoot());
+
     if (gameMod == 2 && control->whoShoot() == 2)
         doAutoShoot();
+
+
 
 }
 
@@ -250,7 +454,7 @@ void Scene::setWidth(double w)
 
 }
 
-void Scene::doHit(int hx, int hy, int numOfGun)
+void Scene::doHit(int hx, int hy, int numOfGun, int damage)
 {
     viewHit->movie()->stop();
     hit->setPos(hx - 35, hy - 52);
@@ -263,7 +467,7 @@ void Scene::doHit(int hx, int hy, int numOfGun)
     else
         g = gun2;
 
-    g->setDamage(25);
+    g->setDamage(damage);
     if (numOfGun == 1)
         health1->update(health1->boundingRect());
     else
@@ -271,6 +475,11 @@ void Scene::doHit(int hx, int hy, int numOfGun)
     control->setReady();
     setWidth((qrand() % 30 - 15.0) / 10.0);
 ////
+    if (health1->getHealth() > 0 && health2->getHealth() > 0)
+        changeInd(control->whoShoot());
+    else
+        changeInd(0);
+
     if (gameMod == 2 && control->whoShoot() == 2)
         doAutoShoot();
 
@@ -283,10 +492,15 @@ void Scene::doCrash(int player)
     if (player == 1)
     {
         crash->setPos(indent - 95, horizon - 300);
+        if (gameMod == 1)
+            showWinner(2);
+        else
+            showWinner(3);
     }
     else
     {
         crash->setPos(wOfField - indent - 95, horizon - 300);
+        showWinner(1);
     }
     viewCrash->movie()->start();
 }
@@ -332,13 +546,27 @@ Scene::~Scene()
 
 void Scene::doAutoShoot()
 {
+
+
+
     if(!autoShooStart)
     {
+        numOfBullet = qrand() % 3 + 1;
+        if (width > 0.9 && numOfBullet == 3)
+            numOfBullet = qrand() % 2 + 1;
+
+        bInd2->setKindOfBullet(numOfBullet);
+
         connect(timer, SIGNAL(timeout()), this, SLOT(doAutoShoot()));
         autoShooStart = true;
         c = 0;
         int i = (width + 1.5) * 10.0;
-        stepOfAutoAim = (tab[i][2] - gun2->getAngle()) / 20;
+        if (numOfBullet == 1)
+            stepOfAutoAim = (tab[i][2] - gun2->getAngle()) / 20;
+        else if (numOfBullet == 2)
+            stepOfAutoAim = (tab_rocket[i][2] - gun2->getAngle()) / 20;
+        else
+            stepOfAutoAim = (tab_bomb[i][2] - gun2->getAngle()) / 20;
     }
     else if (c < 19)
     {
@@ -353,9 +581,22 @@ void Scene::doAutoShoot()
         double delta = 0;
         if (skill != 0)
             delta = (qrand() % (2 * skill)) - skill;
-        gun2->setAngle(tab[i][2] + delta);
-        pContr2->startAuto(2, tab[i][1]);
 
+        if (numOfBullet == 1)
+        {
+            gun2->setAngle(tab[i][2] + delta);
+            pContr2->startAuto(2, tab[i][1]);
+        }
+        else if (numOfBullet == 2)
+        {
+            gun2->setAngle(tab_rocket[i][2] + delta);
+            pContr2->startAuto(2, tab_rocket[i][1]);
+        }
+        else
+        {
+            gun2->setAngle(tab_bomb[i][2] + delta);
+            pContr2->startAuto(2, tab_bomb[i][1]);
+        }
     }
 
 }

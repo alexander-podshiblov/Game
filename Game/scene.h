@@ -9,13 +9,16 @@
 #include <QLabel>
 #include <QGraphicsProxyWidget>
 #include "math.h"
-#include "bullet.h"
+#include "bomb.h"
+#include "ball.h"
+#include "rocket.h"
 #include "clouds.h"
 #include "healthindicator.h"
 #include "shootcontrol.h"
 #include "powercontroller.h"
+#include "bulletindicator.h"
 
-const int horizon = 550;
+//const int horizon = 550;
 const int hOfField = 600;
 const int wOfField = 1680;
 const int indent = 300;
@@ -33,17 +36,32 @@ public:
     void setWidth(double w);
     void setSkill(int s);
 private:
+    void changeInd(int p);
+    void showWinner(int p);
+
     Gun *gun1;
     Gun *gun2;
 
     HealthIndicator *health1;
     HealthIndicator *health2;
 
+    BulletIndicator *bInd1;
+    BulletIndicator *bInd2;
+
     QSound *boomSound;
     QSound *explosionSound;
     QSound *miss;
 
     QTimer *timer;
+
+    QGraphicsProxyWidget *pInd1;
+    QLabel *viewPInd1;
+
+    QGraphicsProxyWidget *pInd2;
+    QLabel *viewPInd2;
+
+    QGraphicsProxyWidget *pIndc;
+    QLabel *viewPIndc;
 
     QGraphicsProxyWidget *boom;
     QLabel *viewBoom;
@@ -71,12 +89,17 @@ private:
     int gameMod;
 
     double tab[31][3];
+    double tab_rocket[31][3];
+    double tab_bomb[31][3];
 
     bool autoShooStart;
     double stepOfAutoAim;
     int c;
 
     int skill;
+    int numOfBullet;
+
+
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
 
@@ -85,8 +108,8 @@ signals:
     
 public slots:
     void doFire(int player);
-    void doExplosion(int eX);
-    void doHit(int hx, int hy, int numOfGun);
+    void doExplosion(int eX, int rad, int damage);
+    void doHit(int hx, int hy, int numOfGun, int damage);
     void doCrash(int player);
     void doAutoShoot();
 

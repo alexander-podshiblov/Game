@@ -1,5 +1,4 @@
 #include "gun.h"
-
 Gun::Gun(int player)
 {
     if (player == 1)
@@ -92,6 +91,7 @@ void Gun::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void Gun::setAngle(double a)
 {
+
     double rotAngle = angle - a;
     angle = a;
     rotate(rotAngle);
@@ -117,8 +117,8 @@ QPoint Gun::getPosForEx()
     double ang = getAngle() / ConvInAng;
     double px = 50 * cos(ang);
     double py = sqrt(2500 - px * px);
-    py = y() - py * 1.2;
-    px = px * 1.2 + x();
+    py = y() - py * 1.4;
+    px = px * 1.4 + x();
     return QPoint(px, py);
 }
 

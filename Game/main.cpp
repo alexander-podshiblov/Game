@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 
 /*
     Gun *g = new Gun(2);
-    FILE *f = fopen("tab.txt", "w");
+    FILE *f = fopen("tab_rocket.txt", "w");
     for (double j = -1.5; j < 1.6; j = j + 0.1)
     {
     for (int i = 180; i >= 90; i--)
@@ -72,8 +72,20 @@ int main(int argc, char *argv[])
         }
 
         t = t - 0.1;
-        double x = t * vX + j * (t * t)/2 + px + wOfField - indent;
-        if (abs(x - indent) <=5.0)
+//
+        double resisFactor = 1;
+        if (j > 0)
+        {
+                resisFactor = 0.5;
+        }
+        else if (j < 0)
+        {
+                resisFactor = 2;
+        }
+
+//
+        double x = t * vX + j * (t * t)/2 * resisFactor + px + wOfField - indent;
+        if (abs(x - indent) <= 6.0)
         {
             fprintf(f, "%f %f %i \n", j, fa, i);
             printf("%f %f %i \n", j, fa, i);

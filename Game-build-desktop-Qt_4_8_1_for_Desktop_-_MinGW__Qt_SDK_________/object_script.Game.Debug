@@ -11,6 +11,10 @@ INPUT(
 ./debug\healthindicator.o
 ./debug\shootcontrol.o
 ./debug\powercontroller.o
+./debug\bulletindicator.o
+./debug\ball.o
+./debug\rocket.o
+./debug\bomb.o
 ./debug\moc_mainwindow.o
 ./debug\moc_scene.o
 ./debug\moc_coordinator.o
@@ -21,5 +25,8 @@ INPUT(
 ./debug\moc_healthindicator.o
 ./debug\moc_shootcontrol.o
 ./debug\moc_powercontroller.o
+./debug\moc_ball.o
+./debug\moc_rocket.o
+./debug\moc_bomb.o
 ./debug\qrc_res.o
 );
