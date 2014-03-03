@@ -13,6 +13,13 @@ Bullet::Bullet(int sX, int sY, int speedX, int speedY, double res, Gun *g1, Gun 
     resis = res;
 }
 
+void Bullet::shieldMet()
+{
+    emit hit(x(), y(), 1, 0);
+    scene()->removeItem(this);
+    delete this;
+}
+
 Bullet::~Bullet()
 {
 

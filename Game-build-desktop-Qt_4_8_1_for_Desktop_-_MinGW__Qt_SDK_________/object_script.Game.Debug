@@ -15,6 +15,8 @@ INPUT(
 ./debug\ball.o
 ./debug\rocket.o
 ./debug\bomb.o
+./debug\sos.o
+./debug\shield.o
 ./debug\moc_mainwindow.o
 ./debug\moc_scene.o
 ./debug\moc_coordinator.o
@@ -28,5 +30,7 @@ INPUT(
 ./debug\moc_ball.o
 ./debug\moc_rocket.o
 ./debug\moc_bomb.o
+./debug\moc_sos.o
+./debug\moc_shield.o
 ./debug\qrc_res.o
 );

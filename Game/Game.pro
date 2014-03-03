@@ -25,7 +25,9 @@ SOURCES += main.cpp \
     bulletindicator.cpp \
     ball.cpp \
     rocket.cpp \
-    bomb.cpp
+    bomb.cpp \
+    sos.cpp \
+    shield.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -42,7 +44,9 @@ HEADERS += \
     bulletindicator.h \
     ball.h \
     rocket.h \
-    bomb.h
+    bomb.h \
+    sos.h \
+    shield.h
 
 FORMS += \
     mainwindow.ui

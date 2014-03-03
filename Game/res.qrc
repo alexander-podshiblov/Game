@@ -7,5 +7,7 @@
         <file>player1.gif</file>
         <file>player2.gif</file>
         <file>computer.gif</file>
+        <file>sos.gif</file>
+        <file>sos2.gif</file>
     </qresource>
 </RCC>

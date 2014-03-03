@@ -17,7 +17,8 @@
 #include "shootcontrol.h"
 #include "powercontroller.h"
 #include "bulletindicator.h"
-
+#include "sos.h"
+#include "shield.h"
 //const int horizon = 550;
 const int hOfField = 600;
 const int wOfField = 1680;
@@ -82,6 +83,9 @@ private:
     PowerController *pContr1;
     PowerController *pContr2;
 
+    Sos *sosButton1;
+    Sos *sosButton2;
+
     double width;
 
     bool isFinished;
@@ -99,6 +103,9 @@ private:
     int skill;
     int numOfBullet;
 
+    Shield *sh1;
+    Shield *sh2;
+
 
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
@@ -112,5 +119,7 @@ public slots:
     void doHit(int hx, int hy, int numOfGun, int damage);
     void doCrash(int player);
     void doAutoShoot();
+    void setShield(int p);
+    void crashShield(int p);
 
 };

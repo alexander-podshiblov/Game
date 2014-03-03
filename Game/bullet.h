@@ -16,6 +16,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) = 0;
     virtual QRectF boundingRect() const = 0;
     virtual QPainterPath shape() const = 0;
+    void shieldMet();
 
 protected:
     virtual void advance(int phase) = 0;

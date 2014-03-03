@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'powercontroller.h'
 **
-** Created: Wed 5. Feb 04:22:55 2014
+** Created: Mon 3. Mar 07:04:32 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!

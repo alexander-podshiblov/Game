@@ -58,6 +58,9 @@ Scene::Scene(int mod)
 
     control = new ShootControl();
 
+    sh1 = NULL;
+    sh2 = NULL;
+
     FireButton *z = new FireButton(1, control);
     z->setPos(indent, 250);
     addItem(z);
@@ -145,6 +148,22 @@ Scene::Scene(int mod)
     health2->setPos(wOfField - indent, horizon - 120);
     addItem(health2);
     connect(gun2, SIGNAL(healthChanged(int)), health2, SLOT(setHealth(int)));
+///////
+    sosButton1 = new Sos(1, control);
+    sosButton1->setPos(indent, 373);
+    addItem(sosButton1);
+
+    int p = 2;
+    if (gameMod == 2)
+        p = 3;
+
+    sosButton2 = new Sos(p, control);
+    sosButton2->setPos(wOfField - indent, 373);
+    addItem(sosButton2);
+
+    connect(sosButton1, SIGNAL(getBonus(int)), this, SLOT(setShield(int)));
+    connect(sosButton2, SIGNAL(getBonus(int)), this, SLOT(setShield(int)));
+
 ///////
     bInd1 = new BulletIndicator();
     bInd1->setPos(indent, 320);
@@ -326,6 +345,18 @@ void Scene::doFire(int player)
         connect(bull, SIGNAL(explosion(int, int, int)), this, SLOT(doExplosion(int, int, int)));
         connect(bull, SIGNAL(hit(int,int,int, int)), this, SLOT(doHit(int,int,int, int)));
 
+        if (player == 1 && sh2 != NULL)
+        {
+            sh2->setBullet(bull);
+            connect(bull, SIGNAL(explosion(int, int, int)), sh2, SLOT(bulletCrashed()));
+            connect(bull, SIGNAL(hit(int,int,int, int)), sh2, SLOT(bulletCrashed()));
+        }
+        else if (player == 2 && sh1 != NULL)
+        {
+            sh1->setBullet(bull);
+            connect(bull, SIGNAL(explosion(int, int, int)), sh1, SLOT(bulletCrashed()));
+            connect(bull, SIGNAL(hit(int,int,int, int)), sh1, SLOT(bulletCrashed()));
+        }
 
     ///////////////
 
@@ -551,6 +582,15 @@ void Scene::doAutoShoot()
 
     if(!autoShooStart)
     {
+        if(!sosButton2->bonusIsUsed())
+        {
+            if (qrand() % 100 < 100 - health2->getHealth())
+                sosButton2->activateCompBonus();
+        }
+
+
+
+
         numOfBullet = qrand() % 3 + 1;
         if (width > 0.9 && numOfBullet == 3)
             numOfBullet = qrand() % 2 + 1;
@@ -604,6 +644,31 @@ void Scene::doAutoShoot()
 void Scene::setSkill(int s)
 {
     skill = s;
+}
+
+void Scene::setShield(int p)
+{
+    Shield *sh = new Shield(p);
+    int coordX = indent;
+    if (p == 2)
+        coordX = wOfField - indent;
+    sh->setPos(coordX, horizon);
+    addItem(sh);
+
+    if (p == 1)
+        sh1 = sh;
+    else
+        sh2 = sh;
+
+    connect(sh, SIGNAL(crashed(int)), this, SLOT(crashShield(int)));
+}
+
+void Scene::crashShield(int p)
+{
+    if (p == 1)
+        sh1 = NULL;
+    else
+        sh2 = NULL;
 }
 
 
